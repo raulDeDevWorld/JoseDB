@@ -18,7 +18,7 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import "animate.css/animate.compat.css"
 import priceFTL from '@/db/priceFTL.json'
 import 'react-awesome-slider/dist/styles.css';
-
+import InputEspecial from '@/components/InputEspecial'
 import QRscanner from '@/components/QRscanner'
 import { QRreaderUtils } from '@/utils/QRreader'
 
@@ -162,9 +162,10 @@ function Section({ subtitle, video, gradiente, id, children, tarjetas }) {
 
 
 export default function Home() {
-  const { user, introVideo, userDB, setUserProfile, setUserSuccess, success, setUserData, postsIMG, setUserPostsIMG, nav, cliente, setCliente } = useUser()
+  const { user, introVideo, userDB, setUserProfile, setUserSuccess, success, setUserData, postsIMG, setUserPostsIMG, nav, cliente, setCliente, focus, setFocus } = useUser()
 
   const [element, setElement] = useState('TRACKING')
+
   const router = useRouter()
   const AutoplaySlider = withAutoplay(AwesomeSlider);
 
@@ -206,10 +207,18 @@ export default function Home() {
 
 
   function handlerOnChange(e) {
+    e.stopPropagation();
+
     inputRef.current.value = e.target.value
   }
+  function stopPropagation(e) {
+    e.stopPropagation();
 
+  }
 
+  function reset() {
+    setFocus('')
+  }
 
   console.log(user)
   useEffect(() => {
@@ -218,7 +227,7 @@ export default function Home() {
   }, [user])
 
   return (
-    <main className={`relative h-screen w-screen `}>
+    <main className={`relative h-screen w-screen `} onClick={reset}>
 
 
 
@@ -360,63 +369,31 @@ export default function Home() {
 
               {element === 'FTL' &&
                 <form className="max-w-md py-5">
-                  <div class="relative z-0 w-full mb-5 group ">
-                    <input type="email" name="floating_email" onChange={handlerOnChange} ref={inputRef} id="floating_email" class="block shadow-xl  py-2.5  w-full text-sm text-gray-900 bg-transparent  px-5 border border-[#dddddd] appearance-none  focus:outline-none focus:ring-0  peer rounded-[5px]" placeholder=" " required />
-                    <label for="floating_email" class="z-50 peer-focus:font-medium absolute text-sm bg-white px-5 mx-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Origen</label>
-                  </div>
-
-                  <div className='h-[80px] overflow-auto'>
 
 
-                    {priceFTL.reduce((acc, i, index) => {
-                      return acc.includes(i.ORIGEN) ? acc : [...acc, i.ORIGEN]
-                    }, []).map((i, index) => {
-                      return <div class="relative z-0 w-full mb-5 group " onClick={() => inputRef.current.value = i}>
-                        {i}
-                      </div>
-                    })}
-
-
-                  </div>
+                  <InputEspecial data={priceFTL} node={'ORIGEN'} focusTxt='ORIGEN-FTL'></InputEspecial>
 
 
 
-
-                  <div class="relative z-0 w-full mb-5 group ">
-                    <input type="email" name="floating_email" id="floating_email" class="block shadow-xl  py-2.5  w-full text-sm text-gray-900 bg-transparent  px-5 border border-[#dddddd] appearance-none  focus:outline-none focus:ring-0  peer rounded-[5px]" placeholder=" " required />
-                    <label for="floating_email" class="z-50 peer-focus:font-medium absolute text-sm bg-white px-5 mx-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Destino</label>
-                  </div>
-
-
-                  <div className='h-[80px] overflow-auto'>
-
-
-                    {priceFTL.reduce((acc, i, index) => {
-                      return acc.includes(i.DESTINO) ? acc : [...acc, i.DESTINO]
-                    }, []).map((i, index) => {
-                      return <div class="relative z-0 w-full mb-5 group " onClick={() => inputRef.current.value = i}>
-                        {i}
-                      </div>
-                    })}
-
-
-                  </div>
+                  <InputEspecial data={priceFTL} node={'DESTINO'} focusTxt='DESTINO-FTL'></InputEspecial>
 
 
 
 
 
-                  <div class="relative z-0 w-full mb-5 group ">
+
+
+                  <div class="relative z-0 w-full mt-5 group ">
                     <input type="email" name="floating_email" id="floating_email" class="block shadow-xl  py-2.5  w-full text-sm text-gray-900 bg-transparent  px-5 border border-[#dddddd] appearance-none  focus:outline-none focus:ring-0  peer rounded-[5px]" placeholder=" " required />
                     <label for="floating_email" class="z-50 peer-focus:font-medium absolute text-sm bg-white px-5 mx-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Peso (KG)</label>
                   </div>
 
 
-                  <div class="relative z-0 w-full mb-5 group ">
+                  <div class="relative z-0 w-full mt-5 group ">
                     <input type="email" name="floating_email" id="floating_email" class="block shadow-xl  py-2.5  w-full text-sm text-gray-900 bg-transparent  px-5 border border-[#dddddd] appearance-none  focus:outline-none focus:ring-0  peer rounded-[5px]" placeholder=" " required />
                     <label for="floating_email" class="z-50 peer-focus:font-medium absolute text-sm bg-white px-5 mx-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Volumen</label>
                   </div>
-                  <div class="relative z-0 w-full mb-5 group ">
+                  <div class="relative z-0 w-full mt-5 group ">
                     <input type="email" name="floating_email" id="floating_email" class="block shadow-xl  py-2.5  w-full text-sm text-gray-900 bg-transparent  px-5 border border-[#dddddd] appearance-none  focus:outline-none focus:ring-0  peer rounded-[5px]" placeholder=" " required />
                     <label for="floating_email" class="z-50 peer-focus:font-medium absolute text-sm bg-white px-5 mx-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Equipo</label>
                   </div>
